@@ -1,0 +1,188 @@
+<div class="quiz-content text-center">
+  <div class="progress">
+    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+         style="width:10%">
+    </div>
+  </div>
+
+  <form>
+    <h2 id="question" align="center">pytanie</h2>
+    <div class="form-group">
+      <button id="answerA" align="center" onclick="chooseAnswer(id)" type="button" class="btn btn-default">
+        Odpowiedź
+        pierwsza
+      </button>
+    </div>
+    <div class="form-group">
+      <button id="answerB" align="center" onclick="chooseAnswer(id)" type="button" class="btn btn-default">
+        Odpowiedź
+        druga
+      </button>
+    </div>
+    <div class="form-group">
+      <button id="answerC" align="center" onclick="chooseAnswer(id)" type="button" class="btn btn-default">
+        Odpowiedź
+        trzecia
+      </button>
+    </div>
+    <div class="form-group">
+      <button id="answerD" align="center" onclick="chooseAnswer(id)" type="button" class="btn btn-default">
+        Odpowiedź
+        trzecia
+      </button>
+    </div>
+  </form>
+</div>
+
+
+<div class="result-content text-center" style="display: none">
+  <form>
+    <div style="display: inline-block">
+      <h2>Twój wynik: </h2>
+      <h2>Średni wynik: </h2>
+    </div>
+
+    <div style="display: inline-block">
+      <h2 id="result-p">asd</h2>
+      <h2 id="avereageresult-p">asd2</h2>
+    </div>
+  </form>
+  <button id="resetbtn" align="center" onclick="resetQuiz()" type="button" class="btn btn-default">Zagraj jeszcze
+    raz!
+  </button>
+
+</div>
+
+<script>
+  var list = [];
+  var points = 0;
+  var count = 0;
+  var questionList = [
+    {
+      "question": "P1",
+      "answerA": "A1",
+      "answerB": "B1",
+      "answerC": "C1",
+      "answerD": "D1",
+      "correctAnswer": "A1"
+    },
+    {
+      "question": "P2",
+      "answerA": "A2",
+      "answerB": "B2",
+      "answerC": "C2",
+      "answerD": "D2",
+      "correctAnswer": "A2"
+    }, {
+      "question": "P3",
+      "answerA": "A3",
+      "answerB": "B3",
+      "answerC": "C3",
+      "answerD": "D3",
+      "correctAnswer": "A3"
+    }, {
+      "question": "P4",
+      "answerA": "A4",
+      "answerB": "B4",
+      "answerC": "C4",
+      "answerD": "D4",
+      "correctAnswer": "A4"
+    }, {
+      "question": "P5",
+      "answerA": "A5",
+      "answerB": "B5",
+      "answerC": "C5",
+      "answerD": "D5",
+      "correctAnswer": "A5"
+    }, {
+      "question": "P6",
+      "answerA": "A6",
+      "answerB": "B6",
+      "answerC": "C6",
+      "answerD": "D6",
+      "correctAnswer": "A6"
+    }, {
+      "question": "P7",
+      "answerA": "A7",
+      "answerB": "B7",
+      "answerC": "C7",
+      "answerD": "D7",
+      "correctAnswer": "A7"
+    }, {
+      "question": "P8",
+      "answerA": "A8",
+      "answerB": "B8",
+      "answerC": "C8",
+      "answerD": "D8",
+      "correctAnswer": "A8"
+    }, {
+      "question": "P9",
+      "answerA": "A9",
+      "answerB": "B9",
+      "answerC": "C9",
+      "answerD": "D9",
+      "correctAnswer": "A9"
+    }, {
+      "question": "P10",
+      "answerA": "A10",
+      "answerB": "B10",
+      "answerC": "C10",
+      "answerD": "D10",
+      "correctAnswer": "A10"
+    },
+  ];
+  var answerAHandler = document.getElementById("answerA");
+  var answerBHandler = document.getElementById("answerB");
+  var answerCHandler = document.getElementById("answerC");
+  var answerDHandler = document.getElementById("answerD");
+  var questionHandler = document.getElementById("question");
+  var progressBar = document.querySelector(".progress-bar");
+  var quizContent = document.querySelector(".quiz-content");
+  var resultContent = document.querySelector(".result-content");
+  var result = document.getElementById("result-p");
+  var averageResult = document.getElementById("avereageresult-p");
+  if (localStorage.length !== 0) {
+    JSON.parse(localStorage.getItem('results')).forEach(item => {
+      list.push(item);
+    });
+  }
+  setAnswerAndQuestion();
+  function setAnswerAndQuestion() {
+    answerAHandler.textContent = questionList[count].answerA;
+    answerBHandler.textContent = questionList[count].answerB;
+    answerCHandler.textContent = questionList[count].answerC;
+    answerDHandler.textContent = questionList[count].answerD;
+    questionHandler.textContent = questionList[count].question;
+  }
+  function chooseAnswer(id) {
+    if (document.getElementById(id).textContent === questionList[count].correctAnswer) {
+      points++;
+    }
+    if (count === 9) {
+      list.push(points);
+      localStorage.setItem("results", JSON.stringify(list));
+      result.textContent = this.points;
+      let resultValue = 0;
+      let resultList = JSON.parse(localStorage.getItem('results'));
+      resultList.forEach(item => {
+        resultValue += item;
+      })
+      averageResult.textContent = resultValue / resultList.length;
+      quizContent.style.display = "none";
+      resultContent.style.display = "block"
+    }
+    else {
+      count++;
+      progressBar.style.width = (count + 1) * 10 + "%";
+      setAnswerAndQuestion();
+    }
+  }
+  function resetQuiz() {
+    quizContent.style.display = "block";
+    resultContent.style.display = "none";
+    count = 0;
+    points = 0;
+    progressBar.style.width = (count + 1) * 10 + "%";
+    setAnswerAndQuestion();
+  }
+</script>

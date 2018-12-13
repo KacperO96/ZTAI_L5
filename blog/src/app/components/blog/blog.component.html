@@ -1,0 +1,3 @@
+<div *ngFor="let it of items | filter:filterText">
+  <app-blog-item [image]="it.url" [text]="it.title | summary:35" (click)="newValues(it.title, it.url, it.id)"></app-blog-item>
+</div>
