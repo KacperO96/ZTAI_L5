@@ -17,12 +17,12 @@ const userSchema = new mongoose.Schema({
     active: {type: Boolean, default: true, required: false},
     isAdmin: {type: Boolean, default: false, required: false}
 }, {
-    collection: 'dp_user'
+    collection: 'ko_user'
 });
 
 userSchema.plugin(uniqueValidator);
 
-const UserModel = mongoose.model('dp_user', userSchema);
+const UserModel = mongoose.model('ko_user', userSchema);
 
 async function getByEmailOrName(name) {
     const result = await UserModel.findOne({ $or: [{ email: name }, { name: name }] });
@@ -61,10 +61,16 @@ async function createNewOrUpdate(user) {
     });
 }
 
+async function removeById(id) {
+    return await UserModel.findOneAndRemove(id);
+}
+
 export default {
     getByEmailOrName: getByEmailOrName,
     get: get,
     createNewOrUpdate: createNewOrUpdate,
+    removeById: removeById,
 
+    userRole: userRole,
     model: UserModel
 }

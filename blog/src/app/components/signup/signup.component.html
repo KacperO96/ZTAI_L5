@@ -1,0 +1,23 @@
+<form [formGroup]="form" class="omb_loginForm" action="post" autocomplete="off" method="POST">
+  <div class="input-group">
+    <input [(ngModel)]="userValues.name" formControlName="name" type="text" class="form-control"
+           name="username" placeholder="Nazwa" title="Wprowadź login">
+  </div>
+  <!--<span class="help-block">{{ error }}</span>-->
+
+  <div class="input-group">
+    <input [(ngModel)]="userValues.email" formControlName="email" type="text" class="form-control"
+           name="email" placeholder="Email" title="Wprowadź email">
+  </div>
+  <!--<span class="help-block">{{ error }}</span>-->
+
+  <div class="input-group">
+    <input [(ngModel)]="userValues.password" formControlName="password" type="password" class="form-control"
+           name="password" placeholder="Hasło" title="Wprowadź hasło">
+  </div>
+  <!--<span class="help-block">{{ error }}</span>-->
+
+  <button (click)="singUp()" class="btn btn-lg btn-pink btn-block" type="button" title="Przycisk utwórz">
+    Utwórz
+  </button>
+</form>

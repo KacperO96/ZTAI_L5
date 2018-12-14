@@ -21,14 +21,14 @@ const userEndpoint = (router) => {
         }
     });
 
-    // router.delete('/api/user/logout/:id', async (request, response, next) => {
-    //     try {
-    //         let result = await business(request).getUserManager(request).removeHashSession(request.body.userId);
-    //         response.status(200).send(result);
-    //     } catch (error) {
-    //         applicationException.errorHandler(error, response);
-    //     }
-    // })
+    router.delete('/api/user/logout/:id', async (request, response, next) => {
+        try {
+            let result = await business(request).getUserManager(request).removeHashSession(request.body.userId);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    })
 
 };
 

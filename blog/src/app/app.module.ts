@@ -11,17 +11,24 @@ import {BlogComponent} from './components/blog/blog.component';
 import {BlogItemComponent} from './components/blog-item/blog-item.component';
 import {BlogItemImageComponent} from './components/blog-item-image/blog-item-image.component';
 import {BlogItemTextComponent} from './components/blog-item-text/blog-item-text.component';
-import { BlogItemDetailComponent } from './components/blog-item-detail/blog-item-detail.component';
-import { SummaryPipe } from './summary.pipe';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import { FilterPipe } from './pipes/filter.pipe';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DataService} from "./data.service";
-import { SearchBarComponent } from "./components/search-bar/search-bar.component";
-import { BlogHomeComponent } from './components/blog-home/blog-home.component';
-import { TextFormatDirective } from './directives/text-format.directive';
-import { BlogCreateComponent } from './components/blog-create/blog-create.component';
+import {BlogItemDetailComponent} from './components/blog-item-detail/blog-item-detail.component';
+import {SummaryPipe} from './summary.pipe';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {FilterPipe} from './pipes/filter.pipe';
+import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
+import {DataService} from "./data.service";
+import {SearchBarComponent} from "./components/search-bar/search-bar.component";
+import {BlogHomeComponent} from './components/blog-home/blog-home.component';
+import {TextFormatDirective} from './directives/text-format.directive';
+import {BlogCreateComponent} from './components/blog-create/blog-create.component';
+import {AuthServiceService} from "./services/auth-service.service";
+import {DataServiceService} from "./services/data-service.service";
+import {AdminGuardGuard} from "./services/admin-guard.guard";
+import {AuthInterceptor} from './services/auth/auth.interceptor';
+import {LoginComponent} from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+
 
 const appRoutes: Routes = [
   {
@@ -39,6 +46,8 @@ const appRoutes: Routes = [
   {
     path: 'quiz',
     component: QuizComponent,
+    canActivate: [AdminGuardGuard],
+    data: {state: 'admin'}
   },
   {
     path: 'blog/create',
@@ -51,7 +60,16 @@ const appRoutes: Routes = [
   {
     path: 'blog/detail/:id',
     component: BlogItemDetailComponent,
-  }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'singup',
+    component: SignupComponent,
+  },
+
 ];
 
 
@@ -72,7 +90,9 @@ const appRoutes: Routes = [
     SearchBarComponent,
     BlogHomeComponent,
     TextFormatDirective,
-    BlogCreateComponent
+    BlogCreateComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +101,13 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [DataService],
+  providers: [DataService, AuthServiceService, DataServiceService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

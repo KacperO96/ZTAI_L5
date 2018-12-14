@@ -4,15 +4,16 @@ import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 import mongoConverter from '../service/mongoConverter'
 import applicationException from "../service/applicationException";
+import * as _ from 'lodash';
 
 const passwordSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true, unique: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'ko_user', required: true, unique: true },
     password: { type: String, required: true }
 }, {
     collection: 'password'
 });
 
-const PasswordModel = mongoose.model('password', passwordSchema);
+const PasswordModel = mongoose.model('ko_password', passwordSchema);
 
 async function createOrUpdate(data) {
     const result = await PasswordModel.findOneAndUpdate({ userId: data.userId }, _.omit(data, 'id'), { new: true });

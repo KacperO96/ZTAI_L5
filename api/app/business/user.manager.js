@@ -30,18 +30,35 @@ function create(context) {
         return {token: token.value};
     }
 
+    async function getUserByToken(receivedToken) {
+        const token = await TokenDAO.get(receivedToken);
+        return await UserDAO.get(token.userId);
+    }
 
     async function createNewOrUpdate(data) {
         let result = await UserDAO.createNewOrUpdate(data);
-        if (result) {
+        if (await data.password) {
+            return await PasswordDAO.createOrUpdate({userId: result.id, password: hashString(data.password)});
+        } else {
             return result;
         }
+    }
+
+    async function removeUserById(id) {
+        return await UserDAO.removeById(id);
+    }
+
+    async function removeHashSession(userId) {
+        return await TokenDAO.remove(userId);
     }
 
 
     return {
         authenticate: authenticate,
         createNewOrUpdate: createNewOrUpdate,
+        removeUserById: removeUserById,
+        removeHashSession: removeHashSession,
+        getUserByToken: getUserByToken
     };
 }
 
