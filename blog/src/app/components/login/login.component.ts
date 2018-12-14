@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
 
   logOut(){
     return this.authService.logout().subscribe(()=>{
+      //TODO
       this.logged = false;
     });
   }
