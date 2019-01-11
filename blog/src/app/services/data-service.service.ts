@@ -7,7 +7,7 @@ import {map} from "rxjs/operators";
 })
 export class DataServiceService {
 
-  private url = "http://localhost:3000";
+  private url = "http://localhost:8080";
 
   constructor(private http: HttpClient) {
 

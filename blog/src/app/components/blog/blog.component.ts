@@ -40,6 +40,6 @@ export class BlogComponent implements OnInit {
   newValues(text, image, id) {
     this.data.changeImage(image);
     this.data.changeText(text);
-    this.router.navigate(['/blog/detail/', id]);
+    this.router.navigate(['/blog/detail/', id-1]);
   }
 }
