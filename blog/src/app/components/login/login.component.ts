@@ -40,16 +40,14 @@ export class LoginComponent implements OnInit {
           login: '',
           password: ''
         };
-        this.router.navigate(['/blog']);
+        this.router.navigate(['/']);
       }
     });
   }
 
-  logOut(){
-    return this.authService.logout().subscribe(()=>{
-      //TODO
-      this.logged = false;
-    });
-  }
+  // logOut(){
+  //   return this.authService.logout().subscribe(()=>{
+  //   });
+  // }
 
 }

@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit {
 
   singUp(){
     return this.authService.createOrUpdate(this.userValues).subscribe(() =>{
-      this.router.navigate(['/blog']);
+      this.router.navigate(['/']);
     });
   }
 
